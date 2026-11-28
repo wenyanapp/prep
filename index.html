@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>AI Interview Prep</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="gate.css">
+<link rel="stylesheet" href="ink.css">
+<link rel="stylesheet" href="roadmap.css">
+</head>
+<body>
+<svg id="viz-defs" width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <marker id="viz-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+</defs></svg>
+<div id="app">
+  <header class="hdr">
+    <a class="brand" href="#/"><img src="apple-touch-icon.png" alt=""><span>AI <b>Prep</b></span></a>
+    <nav class="nav" id="nav">
+      <a href="#/" data-tab="home"></a>
+      <a href="#/review" data-tab="review"></a>
+      <a href="#/drill" data-tab="drill"></a>
+      <a href="#/mock" data-tab="mock"></a>
+      <a href="#/coverage" data-tab="coverage"></a>
+      <a href="#/saved" data-tab="saved"></a>
+      <a href="#/library" data-tab="library"></a>
+    </nav>
+    <form class="search" id="search-form" role="search">
+      <input id="search-input" type="search" autocomplete="off">
+      <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" width="20" height="20"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+    </form>
+    <button class="hdr-btn" id="btn-lang" aria-label="Language">EN</button>
+    <button class="hdr-btn" id="btn-settings" aria-label="Settings"><svg viewBox="0 0 24 24" width="19" height="19"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  </header>
+  <div class="body"><main id="main" class="main" tabindex="-1"></main></div>
+  <nav class="tabbar" id="tabbar">
+    <a href="#/" data-tab="home"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v8.5a1 1 0 01-1 1h-4.5v-6h-5v6H5a1 1 0 01-1-1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><span></span></a>
+    <a href="#/review" data-tab="review"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 11-2.6-5.9M20 4v4.5h-4.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span></span></a>
+    <a href="#/drill" data-tab="drill"><svg viewBox="0 0 24 24"><rect x="3.5" y="6" width="13" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8 3.5h10.5a2 2 0 012 2V16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><span></span></a>
+    <a href="#/mock" data-tab="mock"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7.5" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M12 9v4l2.5 2M9.5 2.8h5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><span></span></a>
+    <a href="#/coverage" data-tab="coverage"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><span></span></a>
+    <a href="#/saved" data-tab="saved"><svg viewBox="0 0 24 24"><path d="M6.5 3.8h11a1 1 0 011 1v15.4l-6.5-4.4-6.5 4.4V4.8a1 1 0 011-1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><span></span></a>
+    <a href="#/library" data-tab="library"><svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4H11v15H5.5A1.5 1.5 0 014 17.5zM20 5.5A1.5 1.5 0 0018.5 4H13v15h5.5a1.5 1.5 0 001.5-1.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span></span></a>
+  </nav>
+</div>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="boot.js"></script>
+<script>
+  // Web build: offline cache + updates. A new version takes over at once; the page then
+  // offers a reload (app.js PREP_UPDATED). Checks for updates whenever the app comes back.
+  if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+    const hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.register("sw.js").then((reg) => {
+      document.addEventListener("visibilitychange", () => { if (!document.hidden) reg.update().catch(() => {}); });
+    }).catch(() => {});
+    navigator.serviceWorker.addEventListener("controllerchange", () => { if (hadController) window.PREP_UPDATED?.(); });
+  }
+</script>
+</body>
+</html>
